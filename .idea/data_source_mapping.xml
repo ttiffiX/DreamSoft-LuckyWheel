@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/15c5d03e-cb47-49ba-8d56-91a0c7d33054/console.sql" value="15c5d03e-cb47-49ba-8d56-91a0c7d33054" />
+    <file url="file://$PROJECT_DIR$/LuckyWheel/src/main/resources/db/init_table.sql" value="15c5d03e-cb47-49ba-8d56-91a0c7d33054" />
+  </component>
+</project>

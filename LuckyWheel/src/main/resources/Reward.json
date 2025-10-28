@@ -1,0 +1,97 @@
+{
+  "wheel": [
+    {
+      "wheelId": 1,
+      "name": "normal_wheel",
+      "isActive": true,
+      "ticketType": "NORMAL",
+      "listGiftRandom": [
+        {
+          "id": 1,
+          "number": 1,
+          "probability": 25
+        },
+        {
+          "id": 2,
+          "number": 1,
+          "probability": 20
+        },
+        {
+          "id": 3,
+          "number": 1,
+          "probability": 18
+        },
+        {
+          "id": 4,
+          "number": 1,
+          "probability": 15
+        },
+        {
+          "id": 5,
+          "number": 1,
+          "probability": 8
+        },
+        {
+          "id": 6,
+          "number": 1,
+          "probability": 6
+        },
+        {
+          "id": 7,
+          "number": 1,
+          "probability": 3
+        },
+        {
+          "id": 8,
+          "number": 1,
+          "probability": 2
+        },
+        {
+          "id": 9,
+          "number": 1,
+          "probability": 1
+        },
+        {
+          "id": 10,
+          "number": 1,
+          "probability": 2
+        }
+      ],
+      "totalProbability": 100
+    },
+    {
+      "wheelId": 2,
+      "name": "premium_wheel",
+      "isActive": true,
+      "ticketType": "premium",
+      "listGiftRandom": [
+        {
+          "id": 2,
+          "number": 1,
+          "probability": 30
+        },
+        {
+          "id": 6,
+          "number": 1,
+          "probability": 25
+        },
+        {
+          "id": 7,
+          "number": 1,
+          "probability": 20
+        },
+        {
+          "id": 8,
+          "number": 1,
+          "probability": 15
+        },
+        {
+          "id": 9,
+          "number": 1,
+          "probability": 10
+        }
+      ],
+      "totalProbability": 100
+    }
+  ]
+}
