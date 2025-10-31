@@ -16,12 +16,9 @@ public class WheelDTO {
     @JsonProperty("isActive")
     private boolean active;
 
-    @JsonProperty("ticketType")
-    private String ticketType;
+    @JsonProperty("resourceRequire")
+    private Integer resourceRequire;
 
     @JsonProperty("listGiftRandom")
     private List<GiftRandomDTO> listGiftRandom;
-
-    @JsonProperty("totalProbability")
-    private int totalProbability;
 }

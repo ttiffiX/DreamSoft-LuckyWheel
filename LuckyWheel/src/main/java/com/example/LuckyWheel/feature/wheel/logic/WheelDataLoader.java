@@ -5,19 +5,22 @@ import com.example.LuckyWheel.feature.wheel.dto.WheelConfigDTO;
 import com.example.LuckyWheel.feature.wheel.dto.WheelDTO;
 import com.example.LuckyWheel.utils.JsonUtils;
 import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class WheelDataLoader {
     private final ResourceLoader resourceLoader;
     private WheelConfigDTO wheelConfig;
+
+    public WheelDataLoader(@Qualifier("webApplicationContext") ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
     @PostConstruct
     public void loadWheelConfig() {
@@ -38,6 +41,7 @@ public class WheelDataLoader {
                 .map(wheel -> wheel.getListGiftRandom().stream()
                         .map(gift -> new GiftRandomDTO(
                                 gift.getId(),
+                                gift.getInfoId(),
                                 gift.getNumber(),
                                 gift.getProbability()
                         ))
@@ -46,11 +50,11 @@ public class WheelDataLoader {
 
     }
 
-    public String getTicketTypeByWheelId(Long wheelId) {
+    public int getWheelResourceType(Long wheelId) {
         return wheelConfig.getWheels().stream()
                 .filter(wheel -> wheel.getWheelId().equals(wheelId))
                 .findFirst()
-                .map(WheelDTO::getTicketType)
+                .map(WheelDTO::getResourceRequire)
                 .orElseThrow(() -> new RuntimeException("Wheel not found with id: " + wheelId));
     }
 

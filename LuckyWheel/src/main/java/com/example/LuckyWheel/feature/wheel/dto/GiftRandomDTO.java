@@ -12,8 +12,11 @@ public class GiftRandomDTO {
     @JsonProperty("id")
     private Long id;
 
+    @JsonProperty("infoId")
+    private Long infoId;
+
     @JsonProperty("number")
-    private Long number;
+    private Integer number;
 
     @JsonProperty("probability")
     private int probability;

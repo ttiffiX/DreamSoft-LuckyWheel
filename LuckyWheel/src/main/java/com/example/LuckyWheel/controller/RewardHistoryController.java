@@ -2,7 +2,7 @@ package com.example.LuckyWheel.controller;
 
 import com.example.LuckyWheel.controller.request.SpinRequest;
 import com.example.LuckyWheel.controller.response.SpinResultResponse;
-import com.example.LuckyWheel.feature.wheel.manager.RewardHistoryService;
+import com.example.LuckyWheel.feature.rewardhistory.manager.RewardHistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,9 +21,10 @@ import java.util.List;
 public class RewardHistoryController {
     private final RewardHistoryService rewardHistoryService;
 
-    @GetMapping("/{wheelId}")
+    @GetMapping("/{userId}/{wheelId}")
     public ResponseEntity<Page<SpinResultResponse>> getWheelSpinResponse(
             @PathVariable Long wheelId,
+            @PathVariable String userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "spinTime") String sortBy,
@@ -34,7 +35,7 @@ public class RewardHistoryController {
         Sort.Direction direction = sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortBy));
 
-        Page<SpinResultResponse> rewardHistory = rewardHistoryService.getRewardHistory(wheelId, pageable);
+        Page<SpinResultResponse> rewardHistory = rewardHistoryService.getRewardHistory(wheelId, userId, pageable);
         return ResponseEntity.ok(rewardHistory);
     }
 

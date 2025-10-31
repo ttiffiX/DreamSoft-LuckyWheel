@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "itemType": 1,
+    "name": "Gold",
+    "description": "Tiền tệ trong game, không thể giao dịch được",
+    "canTrade": 0
+  },
+  {
+    "id": 2,
+    "itemType": 2,
+    "name": "Diamond",
+    "description": "Tiền tệ ưu việt trong game, không thể giao dịch được.",
+    "canTrade": 0
+  },
+  {
+    "id": 3,
+    "itemType": 3,
+    "name": "Normal Ticket",
+    "description": "Vé quay thường thường, có thể mua nhưng không thể bán.",
+    "canTrade": 0
+  },
+  {
+    "id": 4,
+    "itemType": 4,
+    "name": "Premium Ticket",
+    "description": "Vé quay thường cao cấp, có thể mua nhưng không thể bán.",
+    "canTrade": 0
+  }
+]

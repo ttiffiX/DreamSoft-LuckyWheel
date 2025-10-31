@@ -4,94 +4,107 @@
       "wheelId": 1,
       "name": "normal_wheel",
       "isActive": true,
-      "ticketType": "NORMAL",
+      "resourceRequire": 3,
       "listGiftRandom": [
         {
           "id": 1,
-          "number": 1,
+          "infoId": 1,
+          "number": 10000,
           "probability": 25
         },
         {
           "id": 2,
-          "number": 1,
+          "infoId": 1,
+          "number": 20000,
           "probability": 20
         },
         {
           "id": 3,
-          "number": 1,
+          "infoId": 1,
+          "number": 30000,
           "probability": 18
         },
         {
           "id": 4,
-          "number": 1,
+          "infoId": 1,
+          "number": 40000,
           "probability": 15
         },
         {
           "id": 5,
-          "number": 1,
+          "infoId": 1,
+          "number": 50000,
           "probability": 8
         },
         {
           "id": 6,
-          "number": 1,
+          "infoId": 1,
+          "number": 60000,
           "probability": 6
         },
         {
           "id": 7,
-          "number": 1,
+          "infoId": 1,
+          "number": 70000,
           "probability": 3
         },
         {
           "id": 8,
-          "number": 1,
+          "infoId": 1,
+          "number": 80000,
           "probability": 2
         },
         {
           "id": 9,
-          "number": 1,
+          "infoId": 1,
+          "number": 90000,
           "probability": 1
         },
         {
           "id": 10,
-          "number": 1,
+          "infoId": 1,
+          "number": 100000,
           "probability": 2
         }
-      ],
-      "totalProbability": 100
+      ]
     },
     {
       "wheelId": 2,
       "name": "premium_wheel",
       "isActive": true,
-      "ticketType": "premium",
+      "resourceRequire": 4,
       "listGiftRandom": [
         {
-          "id": 2,
-          "number": 1,
+          "id": 1,
+          "infoId": 2,
+          "number": 100,
           "probability": 30
         },
         {
-          "id": 6,
-          "number": 1,
+          "id": 2,
+          "infoId": 2,
+          "number": 200,
           "probability": 25
         },
         {
-          "id": 7,
-          "number": 1,
+          "id": 3,
+          "infoId": 2,
+          "number": 300,
           "probability": 20
         },
         {
-          "id": 8,
-          "number": 1,
+          "id": 4,
+          "infoId": 2,
+          "number": 400,
           "probability": 15
         },
         {
-          "id": 9,
-          "number": 1,
+          "id": 5,
+          "infoId": 2,
+          "number": 500,
           "probability": 10
         }
-      ],
-      "totalProbability": 100
+      ]
     }
   ]
 }

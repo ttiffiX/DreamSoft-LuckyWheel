@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class SpinRequest {
-    private String userId;
-    private  Long wheelId;
-    private Integer quantity;
+public class ResourceRequest {
+    private String username;
+    private int resourceType;
+    private int amount;
 }
