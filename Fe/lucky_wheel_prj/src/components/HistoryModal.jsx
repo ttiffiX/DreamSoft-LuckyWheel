@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const API_BASE_URL = 'http://localhost:8080';
 
-function HistoryModal({ wheelId, onClose }) {
+function HistoryModal({ wheelId, userId, onClose }) {
   const [historyData, setHistoryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +19,7 @@ function HistoryModal({ wheelId, onClose }) {
 
     try {
       const response = await fetch(
-        `${API_BASE_URL}/reward-history/${wheelId}?page=${page}&size=${pageSize}&sortBy=spinTime&sortDirection=desc`
+        `${API_BASE_URL}/reward-history?userId=${userId}&wheelId=${wheelId}&page=${page}&size=${pageSize}`
       );
 
       if (!response.ok) {

@@ -3,6 +3,7 @@ package com.example.LuckyWheel.controller;
 import com.example.LuckyWheel.controller.request.ResourceRequest;
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
+import com.example.LuckyWheel.feature.user.manager.ResourceService;
 import com.example.LuckyWheel.feature.user.manager.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +14,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/users")
+@RequestMapping(value = "users")
 @Slf4j
 public class UserController {
     private final UserService userService;
+    private final ResourceService resourceService;
+
     @GetMapping()
     public ResponseEntity<List<User>> getAllUser() {
         log.info("Get All User");
@@ -38,12 +41,11 @@ public class UserController {
         return ResponseEntity.ok("Created user successfully.");
     }
 
-
     @PostMapping("/resource")
     public ResponseEntity<String> addResource(@RequestBody ResourceRequest resourceRequest) {
         log.info("Add Resource to User: {}, ResourceType: {}, Amount: {}", resourceRequest.getUsername(), resourceRequest.getResourceType(), resourceRequest.getResourceType());
         ResourceType resourceType = ResourceType.fromValue(resourceRequest.getResourceType());
-        userService.addResource(resourceRequest.getUsername(), resourceType, resourceRequest.getAmount());
+        resourceService.addResource(resourceRequest.getUsername(), resourceType, resourceRequest.getAmount());
         return ResponseEntity.ok("Added resource successfully.");
     }
 }

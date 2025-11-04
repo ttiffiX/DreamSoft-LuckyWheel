@@ -5,7 +5,8 @@ import com.example.LuckyWheel.feature.rewardhistory.entity.RewardHistory;
 import com.example.LuckyWheel.feature.rewardhistory.repository.RewardHistoryRepository;
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
-import com.example.LuckyWheel.feature.user.manager.UserService;
+import com.example.LuckyWheel.feature.user.manager.MilestoneService;
+import com.example.LuckyWheel.feature.user.manager.ResourceService;
 import com.example.LuckyWheel.feature.user.repository.UserRepository;
 import com.example.LuckyWheel.feature.wheel.logic.WheelDataLoader;
 import com.example.LuckyWheel.feature.wheel.manager.WheelService;
@@ -27,7 +28,8 @@ public class RewardHistoryServiceImpl implements RewardHistoryService {
     private final WheelService wheelService;
     private final UserRepository userRepository;
     private final WheelDataLoader wheelDataLoader;
-    private final UserService userService;
+    private final ResourceService resourceService;
+    private final MilestoneService milestoneService;
 
     @Override
     public Page<SpinResultResponse> getRewardHistory(Long wheelId, String userId, Pageable pageable) {
@@ -67,7 +69,7 @@ public class RewardHistoryServiceImpl implements RewardHistoryService {
 
         ResourceType resourceType = ResourceType.fromValue(wheelDataLoader.getWheelResourceType(wheelId));
 
-        if (!userService.hasEnoughResource(user.getUsername(), resourceType, quantity)) {
+        if (!resourceService.hasEnoughResource(user.getUsername(), resourceType, quantity)) {
             throw new RuntimeException("User does not have enough resources: " + user.getUsername());
         }
 
@@ -98,8 +100,10 @@ public class RewardHistoryServiceImpl implements RewardHistoryService {
             histories.add(history);
         }
 
-        userService.addResource(user.getUsername(), spinRewards);
-        userService.removeResource(user.getUsername(), resourceType, quantity);
+        resourceService.addResource(user.getUsername(), spinRewards);
+        resourceService.removeResource(user.getUsername(), resourceType, quantity);
+        wheelService.incrementSpinCount(userId, wheelId, quantity);
+
         rewardHistoryRepository.saveAll(histories);
 
         log.info("User {} spun wheel {} {} times and won {} rewards",

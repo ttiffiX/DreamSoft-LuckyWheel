@@ -1,0 +1,64 @@
+[
+  {
+    "id": 1,
+    "wheelId": 1,
+    "milestoneRewards": [
+      {
+        "id": 1,
+        "milestone": 10,
+        "rewards": [
+          {
+            "infoId": 1,
+            "number": 50000
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "milestone": 20,
+        "rewards": [
+          {
+            "infoId": 1,
+            "number": 100000
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "milestone": 30,
+        "rewards": [
+          {
+            "infoId": 1,
+            "number": 200000
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "wheelId": 2,
+    "milestoneRewards": [
+      {
+        "id": 1,
+        "milestone": 10,
+        "rewards": [
+          {
+            "infoId": 2,
+            "number": 500
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "milestone": 20,
+        "rewards": [
+          {
+            "infoId": 2,
+            "number": 1000
+          }
+        ]
+      }
+    ]
+  }
+]

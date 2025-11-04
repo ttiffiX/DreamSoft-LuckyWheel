@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -28,4 +29,12 @@ public class User {
     // DIAMOND: kim cương (dùng để mua vé PREMIUM)
     @Builder.Default
     private Map<ResourceType, Integer> resources = new HashMap<>();
+
+    // Map đếm số lần spin theo wheelId (wheelId -> count)
+    // Dùng để check milestone rewards (10, 20, 30 lần)
+    @Builder.Default
+    private Map<Long, Integer> wheelSpinCounts = new HashMap<>();
+
+    @Builder.Default
+    private Map<Long, Set<Long>> milestoneRewardsClaimed = new HashMap<>();
 }

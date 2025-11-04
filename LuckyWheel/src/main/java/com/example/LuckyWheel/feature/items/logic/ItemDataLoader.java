@@ -1,4 +1,4 @@
-package com.example.LuckyWheel.feature.items.manager;
+package com.example.LuckyWheel.feature.items.logic;
 
 import com.example.LuckyWheel.feature.items.dto.ItemDTO;
 import com.example.LuckyWheel.utils.JsonUtils;

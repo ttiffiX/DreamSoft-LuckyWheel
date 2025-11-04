@@ -1,6 +1,5 @@
 package com.example.LuckyWheel.feature.user.manager;
 
-import com.example.LuckyWheel.controller.response.SpinResultResponse;
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
 import com.example.LuckyWheel.feature.user.repository.UserRepository;
@@ -24,6 +23,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
     }
 
     @Override
@@ -67,77 +72,6 @@ public class UserServiceImpl implements UserService {
         userRepository.save(existingUser);
     }
 
-    // ==================== RESOURCE MANAGEMENT ====================
-
-    @Override
-    @Transactional
-    public void addResource(String username, ResourceType resourceType, int amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Amount must be positive");
-        }
-
-        log.info("Adding {} {} to user {}", amount, resourceType, username);
-
-        User user = getUserByName(username);
-        int currentAmount = user.getResources().getOrDefault(resourceType, 0);
-        user.getResources().put(resourceType, currentAmount + amount);
-
-        userRepository.save(user);
-    }
-
-    @Override
-    @Transactional
-    public void addResource(String username, List<SpinResultResponse> spinRewards) {
-        log.info("Adding resources to user {}", username);
-
-        User user = getUserByName(username);
-        Map<ResourceType, Integer> userResources = user.getResources();
-
-        spinRewards.forEach(spinReward -> {
-            userResources.merge(
-                    spinReward.getRewardType(),
-                    spinReward.getQuantity(),
-                    Integer::sum
-            );
-        });
-
-        userRepository.save(user);
-    }
-
-
-    @Override
-    @Transactional
-    public void removeResource(String username, ResourceType resourceType, int amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("Amount must be positive");
-        }
-
-        log.info("Removing {} {} from user {}", amount, resourceType, username);
-        User user = getUserByName(username);
-        int currentAmount = user.getResources().getOrDefault(resourceType, 0);
-
-        if (currentAmount < amount) {
-            throw new RuntimeException(
-                    String.format("Not enough %s. Has: %d, Need: %d", resourceType, currentAmount, amount)
-            );
-        }
-
-        user.getResources().put(resourceType, currentAmount - amount);
-        userRepository.save(user);
-    }
-
-    @Override
-    public int getResourceAmount(String username, ResourceType resourceType) {
-        User user = getUserByName(username);
-        return user.getResources().getOrDefault(resourceType, 0);
-    }
-
-    @Override
-    public boolean hasEnoughResource(String username, ResourceType resourceType, int amount) {
-        int currentAmount = getResourceAmount(username, resourceType);
-        return currentAmount >= amount;
-    }
-
     @Override
     public Map<ResourceType, Integer> createInitialResources() {
 
@@ -149,7 +83,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toMap(
                         Function.identity(), // Key: Đối tượng ResourceType
 
-                        // 🔥 Value: Dùng Ternary Operator để kiểm tra loại Vàng
+                        // Value: Dùng Ternary Operator để kiểm tra loại Vàng
                         type -> type.equals(ResourceType.GOLD) ? INITIAL_GOLD_AMOUNT : 0
                 ));
     }

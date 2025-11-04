@@ -21,10 +21,10 @@ import java.util.List;
 public class RewardHistoryController {
     private final RewardHistoryService rewardHistoryService;
 
-    @GetMapping("/{userId}/{wheelId}")
+    @GetMapping()
     public ResponseEntity<Page<SpinResultResponse>> getWheelSpinResponse(
-            @PathVariable Long wheelId,
-            @PathVariable String userId,
+            @RequestParam Long wheelId,
+            @RequestParam String userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "spinTime") String sortBy,
