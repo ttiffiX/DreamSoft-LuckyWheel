@@ -50,7 +50,7 @@ public class WheelDataLoader {
 
     }
 
-    public int getWheelResourceType(Long wheelId) {
+    public Long getWheelResourceType(Long wheelId) {
         return wheelConfig.getWheels().stream()
                 .filter(wheel -> wheel.getWheelId().equals(wheelId))
                 .findFirst()

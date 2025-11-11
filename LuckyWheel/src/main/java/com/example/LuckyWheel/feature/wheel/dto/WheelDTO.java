@@ -17,7 +17,7 @@ public class WheelDTO {
     private boolean active;
 
     @JsonProperty("resourceRequire")
-    private Integer resourceRequire;
+    private Long resourceRequire;
 
     @JsonProperty("listGiftRandom")
     private List<GiftRandomDTO> listGiftRandom;

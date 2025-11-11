@@ -1,0 +1,288 @@
+.trade-main {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.trade-notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 2000;
+  animation: slideIn 0.3s ease;
+  max-width: 300px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.trade-main-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.trade-main-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 32px;
+  flex: 1;
+}
+
+.ws-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ws-connected {
+  color: #28a745;
+}
+
+.ws-disconnected {
+  color: #dc3545;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.trade-main-header .back-btn {
+  background: #f0f0f0;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.trade-main-header .back-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Pending Requests Section */
+.pending-trades-section {
+  background: #fff3cd;
+  border-left: 4px solid #ffc107;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.pending-trades-section h2 {
+  margin: 0 0 20px 0;
+  color: #856404;
+  font-size: 20px;
+}
+
+/* My Trades Section */
+.my-trades-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.my-trades-section h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+/* Create Trade Section */
+.create-trade-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.create-trade-section h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 20px;
+}
+
+/* Trade Card */
+.trades-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.trade-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  border: 2px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.trade-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.trade-card.pending {
+  background: #fff9e6;
+  border-color: #ffc107;
+}
+
+.trade-card.active {
+  background: #e6f7ff;
+  border-color: #1890ff;
+}
+
+.trade-info {
+  flex: 1;
+}
+
+.trade-partner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.partner-icon {
+  font-size: 24px;
+}
+
+.partner-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.trade-status-text {
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.trade-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-dot.pending {
+  background: #ffc107;
+  animation: pulse 2s infinite;
+}
+
+.status-dot.active {
+  background: #1890ff;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.trade-time {
+  font-size: 12px;
+  color: #999;
+}
+
+.trade-actions-inline {
+  display: flex;
+  gap: 10px;
+}
+
+.accept-request-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.accept-request-btn:hover {
+  opacity: 0.9;
+}
+
+.open-trade-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.open-trade-btn:hover {
+  opacity: 0.9;
+}
+
+.cancel-trade-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.cancel-trade-btn:hover {
+  opacity: 0.8;
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 20px;
+  color: #667eea;
+}
+

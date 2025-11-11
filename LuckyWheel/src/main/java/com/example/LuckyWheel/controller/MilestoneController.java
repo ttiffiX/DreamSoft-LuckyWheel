@@ -20,6 +20,7 @@ public class MilestoneController {
     public ResponseEntity<List<WheelInfoResponse.MilestoneInfo>> getAvailableMilestones(
             @RequestParam String userId,
             @RequestParam Long wheelId) {
+        log.info("Get available Milestones");
         List<WheelInfoResponse.MilestoneInfo> availableMilestones = milestoneService.getAvailableMilestones(userId, wheelId);
         return ResponseEntity.ok(availableMilestones);
     }
@@ -29,6 +30,7 @@ public class MilestoneController {
             @RequestParam String userId,
             @RequestParam Long wheelId,
             @RequestParam Long milestoneId) {
+        log.info("Claim milestone {}", milestoneId);
         List<WheelInfoResponse.RewardInfo> rewards = milestoneService.claimMilestoneReward(userId, wheelId, milestoneId);
         return ResponseEntity.ok(rewards);
     }

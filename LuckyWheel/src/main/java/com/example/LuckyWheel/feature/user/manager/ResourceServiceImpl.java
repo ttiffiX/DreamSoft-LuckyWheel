@@ -30,8 +30,8 @@ public class ResourceServiceImpl implements ResourceService {
         log.info("Adding {} {} to user {}", amount, resourceType, username);
 
         User user = userService.getUserByName(username);
-        int currentAmount = user.getResources().getOrDefault(resourceType, 0);
-        user.getResources().put(resourceType, currentAmount + amount);
+        int currentAmount = user.getResources().getOrDefault(resourceType.getValue(), 0);
+        user.getResources().put(resourceType.getValue(), currentAmount + amount);
 
         userRepository.save(user);
     }
@@ -42,22 +42,29 @@ public class ResourceServiceImpl implements ResourceService {
         log.info("Adding resources to user {}", username);
 
         User user = userService.getUserByName(username);
-        Map<ResourceType, Integer> userResources = user.getResources();
+        Map<Long, Integer> userResources = user.getResources();
 
-        spinRewards.forEach(spinReward -> {
-            userResources.merge(
-                    spinReward.getRewardType(),
-                    spinReward.getQuantity(),
-                    Integer::sum
-            );
-        });
+        spinRewards.forEach(spinReward -> userResources.merge(
+                spinReward.getRewardType().getValue(),
+                spinReward.getQuantity(),
+                Integer::sum
+        ));
 
         userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void updateMilestone(String username, Long wheelId, Long milestoneId ) {
+    public void updateResource(User user) {
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + user.getId()));
+        existingUser.setResources(user.getResources());
+        userRepository.save(existingUser);
+    }
+
+    @Override
+    @Transactional
+    public void updateMilestone(String username, Long wheelId, Long milestoneId) {
         log.info("Update milestone claimed to user {}", username);
 
         User user = userService.getUserByName(username);
@@ -66,18 +73,6 @@ public class ResourceServiceImpl implements ResourceService {
             oldSet.addAll(newSet);
             return oldSet;
         });
-        userRepository.save(user);
-    }
-
-    @Override
-    @Transactional
-    public void updateSpinCounts(String username, Long wheelId, int amount) {
-        log.info("Update spin counts to user {}", username);
-
-        User user = userService.getUserByName(username);
-        Map<Long, Integer> userSpinCount = user.getWheelSpinCounts();
-
-        userSpinCount.merge(wheelId, amount, Integer::sum);
         userRepository.save(user);
     }
 
@@ -91,7 +86,7 @@ public class ResourceServiceImpl implements ResourceService {
 
         log.info("Removing {} {} from user {}", amount, resourceType, username);
         User user = userService.getUserByName(username);
-        int currentAmount = user.getResources().getOrDefault(resourceType, 0);
+        int currentAmount = user.getResources().getOrDefault(resourceType.getValue(), 0);
 
         if (currentAmount < amount) {
             throw new RuntimeException(
@@ -99,14 +94,14 @@ public class ResourceServiceImpl implements ResourceService {
             );
         }
 
-        user.getResources().put(resourceType, currentAmount - amount);
+        user.getResources().put(resourceType.getValue(), currentAmount - amount);
         userRepository.save(user);
     }
 
     @Override
     public int getResourceAmount(String username, ResourceType resourceType) {
         User user = userService.getUserByName(username);
-        return user.getResources().getOrDefault(resourceType, 0);
+        return user.getResources().getOrDefault(resourceType.getValue(), 0);
     }
 
     @Override
@@ -115,5 +110,15 @@ public class ResourceServiceImpl implements ResourceService {
         return currentAmount >= amount;
     }
 
+    @Override
+    @Transactional
+    public void incrementSpinCount(String userId, Long wheelId, int count) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        Integer currentCount = user.getWheelSpinCounts().getOrDefault(wheelId, 0);
+        user.getWheelSpinCounts().put(wheelId, currentCount + count);
 
+        userRepository.save(user);
+        log.info("Updated spin count for wheel {}: {} -> {}", wheelId, currentCount, currentCount + count);
+    }
 }

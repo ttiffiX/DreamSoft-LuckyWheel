@@ -29,20 +29,20 @@ function UserResources({ username, refreshTrigger }) {
 
   const getResourceIcon = (resourceType) => {
     const icons = {
-      'GOLD': '🪙',
-      'DIAMOND': '💎',
-      'NORMAL': '🎫',
-      'PREMIUM': '🎟️'
+      1: '🪙',
+      2: '💎',
+      3: '🎫',
+      4: '🎟️'
     };
     return icons[resourceType] || '📦';
   };
 
   const getResourceName = (resourceType) => {
     const names = {
-      'GOLD': 'Gold',
-      'DIAMOND': 'Diamond',
-      'NORMAL': 'Normal Ticket',
-      'PREMIUM': 'Premium Ticket'
+      1: 'Gold',
+      2: 'Diamond',
+      3: 'Normal Ticket',
+      4: 'Premium Ticket'
     };
     return names[resourceType] || resourceType;
   };

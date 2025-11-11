@@ -18,12 +18,14 @@ public class WheelController {
 
     @GetMapping()
     public ResponseEntity<List<WheelInfoResponse>> getAllWheels() {
+        log.info("Get All Wheel Info");
         List<WheelInfoResponse> wheels = wheelService.getAllWheelInfo();
         return ResponseEntity.ok(wheels);
     }
 
     @GetMapping("/{wheelId}")
     public ResponseEntity<WheelInfoResponse> getWheelById(@PathVariable Long wheelId) {
+        log.info("Get Wheel {} Info, ", wheelId);
         WheelInfoResponse wheel = wheelService.getWheelInfo(wheelId);
         return ResponseEntity.ok(wheel);
     }

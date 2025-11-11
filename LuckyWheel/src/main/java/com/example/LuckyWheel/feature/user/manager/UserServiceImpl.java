@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
 
         log.info("Creating user with username: {}", user.getUsername());
 
-        Map<ResourceType, Integer> initialResources = createInitialResources();
+        Map<Long, Integer> initialResources = createInitialResources();
 
         User newUser = User.builder()
                 .username(user.getUsername())
@@ -73,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<ResourceType, Integer> createInitialResources() {
+    public Map<Long, Integer> createInitialResources() {
 
         // Số lượng vàng ban đầu
         final int INITIAL_GOLD_AMOUNT = 10_000_000;
@@ -81,9 +80,11 @@ public class UserServiceImpl implements UserService {
         return Arrays.stream(ResourceType.values())
                 .filter(type -> !type.equals(ResourceType.NONE)) // Loại bỏ NONE
                 .collect(Collectors.toMap(
-                        Function.identity(), // Key: Đối tượng ResourceType
-
-                        // Value: Dùng Ternary Operator để kiểm tra loại Vàng
+//                        Function.identity(), // Key: Đối tượng ResourceType
+//
+//                        // Value: Dùng Ternary Operator để kiểm tra loại Vàng
+//                        type -> type.equals(ResourceType.GOLD) ? INITIAL_GOLD_AMOUNT : 0
+                        ResourceType::getValue,
                         type -> type.equals(ResourceType.GOLD) ? INITIAL_GOLD_AMOUNT : 0
                 ));
     }

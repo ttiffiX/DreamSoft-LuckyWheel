@@ -32,14 +32,15 @@ function Login({ onLoginSuccess }) {
 
       const userData = await response.json();
 
+
       // Save user data to localStorage
       localStorage.setItem('userId', userData.id);
       localStorage.setItem('username', userData.username);
       localStorage.setItem('userData', JSON.stringify(userData));
 
-      // Call success callback with user data
+      // Call success callback with user data (keep 'id', not 'userId')
       onLoginSuccess({
-        userId: userData.id,
+        id: userData.id,  // ← Use 'id' to match backend
         username: userData.username,
         resources: userData.resources
       });

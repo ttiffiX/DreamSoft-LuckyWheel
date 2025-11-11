@@ -1,6 +1,5 @@
 package com.example.LuckyWheel.feature.user.entity;
 
-import com.example.LuckyWheel.feature.user.enums.ResourceType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +27,7 @@ public class User {
     // GOLD: vàng (dùng để mua vé NORMAL)
     // DIAMOND: kim cương (dùng để mua vé PREMIUM)
     @Builder.Default
-    private Map<ResourceType, Integer> resources = new HashMap<>();
+    private Map<Long, Integer> resources = new HashMap<>();
 
     // Map đếm số lần spin theo wheelId (wheelId -> count)
     // Dùng để check milestone rewards (10, 20, 30 lần)

@@ -5,7 +5,6 @@ import com.example.LuckyWheel.feature.rewardhistory.entity.RewardHistory;
 import com.example.LuckyWheel.feature.rewardhistory.repository.RewardHistoryRepository;
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
-import com.example.LuckyWheel.feature.user.manager.MilestoneService;
 import com.example.LuckyWheel.feature.user.manager.ResourceService;
 import com.example.LuckyWheel.feature.user.repository.UserRepository;
 import com.example.LuckyWheel.feature.wheel.logic.WheelDataLoader;
@@ -29,7 +28,6 @@ public class RewardHistoryServiceImpl implements RewardHistoryService {
     private final UserRepository userRepository;
     private final WheelDataLoader wheelDataLoader;
     private final ResourceService resourceService;
-    private final MilestoneService milestoneService;
 
     @Override
     public Page<SpinResultResponse> getRewardHistory(Long wheelId, String userId, Pageable pageable) {
@@ -102,7 +100,7 @@ public class RewardHistoryServiceImpl implements RewardHistoryService {
 
         resourceService.addResource(user.getUsername(), spinRewards);
         resourceService.removeResource(user.getUsername(), resourceType, quantity);
-        wheelService.incrementSpinCount(userId, wheelId, quantity);
+        resourceService.incrementSpinCount(userId, wheelId, quantity);
 
         rewardHistoryRepository.saveAll(histories);
 

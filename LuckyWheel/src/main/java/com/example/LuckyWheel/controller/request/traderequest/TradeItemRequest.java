@@ -1,4 +1,4 @@
-package com.example.LuckyWheel.controller.request;
+package com.example.LuckyWheel.controller.request.traderequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-public class ResourceRequest {
-    private String username;
-    private Long resourceType;
-    private int amount;
+public class TradeItemRequest {
+    private String userId;
+    private Long itemId;
+    private Integer quantity;
 }

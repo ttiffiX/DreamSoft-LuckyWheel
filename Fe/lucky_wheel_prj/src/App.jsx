@@ -6,6 +6,7 @@ import WheelDetail from './components/WheelDetail';
 import HistoryModal from './components/HistoryModal';
 import MilestoneModal from './components/MilestoneModal';
 import UserResources from './components/UserResources';
+import TradeMain from './components/TradeMain';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -15,6 +16,7 @@ function App() {
   const [historyWheelId, setHistoryWheelId] = useState(null);
   const [milestoneWheelId, setMilestoneWheelId] = useState(null);
   const [resourceRefreshTrigger, setResourceRefreshTrigger] = useState(0);
+  const [showTrade, setShowTrade] = useState(false);
 
   // Check if user is already logged in
   useEffect(() => {
@@ -82,28 +84,52 @@ function App() {
           <span className="username-display">👤 {user.username}</span>
           <UserResources username={user.username} refreshTrigger={resourceRefreshTrigger} />
         </div>
+        <div className="nav-select-wrapper">
+          <select
+            className="nav-select"
+            value={showTrade ? 'trade' : 'wheels'}
+            onChange={(e) => {
+              const newValue = e.target.value === 'trade';
+              setShowTrade(newValue);
+              setSelectedWheel(null);
+            }}
+          >
+            <option value="wheels">🎡 Lucky Wheels</option>
+            <option value="trade">🤝 Trade Center</option>
+          </select>
+        </div>
         <button className="logout-btn" onClick={handleLogout}>
           Logout
         </button>
       </div>
 
-      {!selectedWheel ? (
-        <WheelList onSelectWheel={handleSelectWheel} />
-      ) : (
-        <WheelDetail
-          wheel={selectedWheel}
-          userId={user.userId}
-          onBack={handleBackToList}
-          onShowHistory={handleShowHistory}
-          onShowMilestone={handleShowMilestone}
+      {showTrade ? (
+        <TradeMain
+          currentUser={user}
+          onBack={() => setShowTrade(false)}
           onResourceUpdate={handleResourceUpdate}
         />
+      ) : (
+        <>
+          {!selectedWheel ? (
+            <WheelList onSelectWheel={handleSelectWheel} />
+          ) : (
+            <WheelDetail
+              wheel={selectedWheel}
+              userId={user.id}
+              onBack={handleBackToList}
+              onShowHistory={handleShowHistory}
+              onShowMilestone={handleShowMilestone}
+              onResourceUpdate={handleResourceUpdate}
+            />
+          )}
+        </>
       )}
 
       {showHistory && historyWheelId && (
         <HistoryModal
           wheelId={historyWheelId}
-          userId={user.userId}
+          userId={user.id}
           onClose={() => setShowHistory(false)}
         />
       )}
@@ -111,7 +137,7 @@ function App() {
       {showMilestone && milestoneWheelId && (
         <MilestoneModal
           wheelId={milestoneWheelId}
-          userId={user.userId}
+          userId={user.id}
           onClose={() => setShowMilestone(false)}
           onResourceUpdate={handleResourceUpdate}
         />

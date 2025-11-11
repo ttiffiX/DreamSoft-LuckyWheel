@@ -4,14 +4,14 @@
     "itemType": 1,
     "name": "Gold",
     "description": "Tiền tệ trong game, không thể giao dịch được",
-    "canTrade": 0
+    "canTrade": 1
   },
   {
     "id": 2,
     "itemType": 2,
     "name": "Diamond",
     "description": "Tiền tệ ưu việt trong game, không thể giao dịch được.",
-    "canTrade": 0
+    "canTrade": 1
   },
   {
     "id": 3,

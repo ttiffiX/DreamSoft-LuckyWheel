@@ -16,7 +16,7 @@ public class ItemDTO {
     private Long id;
 
     @JsonProperty("itemType")
-    private Integer itemType;
+    private Long itemType;
 
     @JsonProperty("name")
     private String name;

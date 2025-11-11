@@ -8,7 +8,6 @@ import java.util.List;
 public interface WheelService {
     List<SpinResultResponse> spin(Long wheelId, int quantity);
     // Wheel spin count management (for milestone rewards)
-    void incrementSpinCount(String userId, Long wheelId, int count);
     Integer getSpinCount(String userId, Long wheelId);
 
     // Get wheel information with milestones

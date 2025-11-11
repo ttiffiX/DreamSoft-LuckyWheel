@@ -16,7 +16,6 @@ import com.example.LuckyWheel.feature.wheel.logic.WheelSpinLogic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -65,18 +64,6 @@ public class WheelServiceImpl implements WheelService {
         log.info("Successfully processed {} rewards", spinRewards.size());
 
         return spinRewards;
-    }
-
-    @Override
-    @Transactional
-    public void incrementSpinCount(String userId, Long wheelId, int count) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        Integer currentCount = user.getWheelSpinCounts().getOrDefault(wheelId, 0);
-        user.getWheelSpinCounts().put(wheelId, currentCount + count);
-
-        userRepository.save(user);
-        log.info("Updated spin count for wheel {}: {} -> {}", wheelId, currentCount, currentCount + count);
     }
 
     @Override
