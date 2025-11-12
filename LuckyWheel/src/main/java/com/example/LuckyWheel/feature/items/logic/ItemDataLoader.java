@@ -35,6 +35,9 @@ public class ItemDataLoader {
         }
     }
 
+    public List<ItemDTO> getAllItems() {
+        return itemList;
+    }
 
     public ItemDTO getItemById(Long itemId) {
         return itemList.stream()

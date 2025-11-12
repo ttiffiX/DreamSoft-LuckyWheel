@@ -86,15 +86,6 @@
             </PendingDiffInfo>
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/LuckyWheel/src/main/java/com/example/LuckyWheel/feature/items/manager/ItemService.java">
-          <value>
-            <PendingDiffInfo>
-              <option name="filePath" value="$PROJECT_DIR$/LuckyWheel/src/main/java/com/example/LuckyWheel/feature/items/manager/ItemService.java" />
-              <option name="originalContent" value="package com.example.LuckyWheel.feature.items.manager;&#10;&#10;import com.example.LuckyWheel.feature.items.entity.Item;&#10;&#10;public interface ItemService {&#10;    Item getItemById(String itemId);&#10;    void addItem(String itemId);&#10;    void removeItem(String itemId);&#10;}&#10;" />
-              <option name="updatedContent" value="package com.example.LuckyWheel.feature.items.manager;&#10;&#10;import com.example.LuckyWheel.feature.items.entity.Item;&#10;&#10;public interface ItemService {&#10;    Item getItemById(String itemId);&#10;    void addItem(String itemId);&#10;    void removeItem(String itemId);&#10;}&#10;" />
-            </PendingDiffInfo>
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/LuckyWheel/src/main/java/com/example/LuckyWheel/feature/items/repository/ItemRepository.java">
           <value>
             <PendingDiffInfo>

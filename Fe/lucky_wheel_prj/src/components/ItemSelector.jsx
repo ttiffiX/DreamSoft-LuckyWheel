@@ -3,16 +3,9 @@ import './ItemSelector.css';
 
 const API_BASE_URL = 'http://localhost:8080';
 
-// Item mapping (match với items.json trong backend)
-const ITEM_INFO = {
-  1: { name: 'Gold', itemType: 1, canTrade: 1 },
-  2: { name: 'Diamond', itemType: 2, canTrade: 1 },
-  3: { name: 'Normal Ticket', itemType: 3, canTrade: 0 },
-  4: { name: 'Premium Ticket', itemType: 4, canTrade: 0 }
-};
-
 function ItemSelector({ username, onClose, onAddItem }) {
   const [user, setUser] = useState(null);
+  const [userItems, setUserItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
   const [quantity, setQuantity] = useState(1);
@@ -23,10 +16,15 @@ function ItemSelector({ username, onClose, onAddItem }) {
 
   const fetchData = async () => {
     try {
-      // Fetch user data with resources
+      // Fetch user data to get user ID
       const userResponse = await fetch(`${API_BASE_URL}/users/${username}`);
       const userData = await userResponse.json();
       setUser(userData);
+
+      // Fetch user's items with quantities using new API
+      const itemsResponse = await fetch(`${API_BASE_URL}/items/user/${userData.id}`);
+      const itemsData = await itemsResponse.json();
+      setUserItems(itemsData);
 
       setLoading(false);
     } catch (err) {
@@ -42,45 +40,13 @@ function ItemSelector({ username, onClose, onAddItem }) {
 
   const handleAddItem = () => {
     if (selectedItem && quantity > 0) {
-      onAddItem(selectedItem.id, quantity);
+      onAddItem(selectedItem.itemId, quantity);
       onClose();
     }
   };
 
-  const getAvailableQuantity = (itemId) => {
-    if (!user || !user.resources) return 0;
-    return user.resources[itemId] || 0;
-  };
-
-  // Build tradable items list from user's resources
-  const buildTradableItems = () => {
-    if (!user || !user.resources) return [];
-
-    const items = [];
-
-    // Loop through user's resources
-    for (const [itemId, qty] of Object.entries(user.resources)) {
-      const itemIdNum = parseInt(itemId);
-      const itemInfo = ITEM_INFO[itemIdNum];
-
-      // Only show items that:
-      // 1. Have quantity > 0
-      // 2. Can be traded (canTrade = 1)
-      // 3. Exist in our item mapping
-      if (itemInfo && itemInfo.canTrade === 1 && qty > 0) {
-        items.push({
-          id: itemIdNum,
-          name: itemInfo.name,
-          itemType: itemInfo.itemType,
-          quantity: qty
-        });
-      }
-    }
-
-    return items;
-  };
-
-  const tradableItems = buildTradableItems();
+  // Filter only tradable items
+  const tradableItems = userItems.filter(item => item.canTrade === 1 && item.quantity > 0);
 
   if (loading) return <div className="modal-overlay"><div className="loading">Loading...</div></div>;
 
@@ -98,19 +64,18 @@ function ItemSelector({ username, onClose, onAddItem }) {
               <p className="no-items">No tradable items available</p>
             ) : (
               tradableItems.map(item => {
-                const available = getAvailableQuantity(item.id);
-                const isSelected = selectedItem?.id === item.id;
+                const isSelected = selectedItem?.itemId === item.itemId;
 
                 return (
                   <div
-                    key={item.id}
+                    key={item.itemId}
                     className={`item-card ${isSelected ? 'selected' : ''}`}
                     onClick={() => handleSelectItem(item)}
                   >
                     <div className="item-icon">📦</div>
                     <div className="item-name">{item.name}</div>
                     <div className="item-type">{item.itemType}</div>
-                    <div className="item-quantity">Available: {available}</div>
+                    <div className="item-quantity">Available: {item.quantity}</div>
                   </div>
                 );
               })
@@ -125,11 +90,11 @@ function ItemSelector({ username, onClose, onAddItem }) {
                 <input
                   type="number"
                   min="1"
-                  max={getAvailableQuantity(selectedItem.id)}
+                  max={selectedItem.quantity}
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, Math.min(getAvailableQuantity(selectedItem.id), parseInt(e.target.value) || 1)))}
+                  onChange={(e) => setQuantity(Math.max(1, Math.min(selectedItem.quantity, parseInt(e.target.value) || 1)))}
                 />
-                <span>/ {getAvailableQuantity(selectedItem.id)}</span>
+                <span>/ {selectedItem.quantity}</span>
               </div>
               <button className="add-item-btn" onClick={handleAddItem}>
                 Add to Trade
@@ -143,4 +108,3 @@ function ItemSelector({ username, onClose, onAddItem }) {
 }
 
 export default ItemSelector;
-
