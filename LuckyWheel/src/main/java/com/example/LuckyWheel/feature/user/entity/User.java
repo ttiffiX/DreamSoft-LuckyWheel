@@ -1,5 +1,6 @@
 package com.example.LuckyWheel.feature.user.entity;
 
+import com.example.LuckyWheel.feature.user.enums.Stats;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,4 +37,15 @@ public class User {
 
     @Builder.Default
     private Map<Long, Set<Long>> milestoneRewardsClaimed = new HashMap<>();
+
+    @Builder.Default
+    private Map<Long, Long> baseStats = new HashMap<>(){
+        {
+            put(Stats.HP.getValue(), 1000L);
+            put(Stats.MP.getValue(), 500L);
+            put(Stats.ATTACK.getValue(), 100L);
+            put(Stats.DEFENSE.getValue(), 50L);
+            put(Stats.SPEED.getValue(), 10L);
+        }
+    };
 }

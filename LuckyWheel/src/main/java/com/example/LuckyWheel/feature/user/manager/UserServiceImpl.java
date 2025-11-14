@@ -2,6 +2,7 @@ package com.example.LuckyWheel.feature.user.manager;
 
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
+import com.example.LuckyWheel.feature.user.logic.UserStatsCalculator;
 import com.example.LuckyWheel.feature.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final UserStatsCalculator userStatsCalculator;
 
     @Override
     public List<User> getAllUser() {
@@ -26,8 +28,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(String userId) {
-        return userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        user.setBaseStats(userStatsCalculator.calculateTotalStats(user));
+        return user;
     }
 
     @Override
