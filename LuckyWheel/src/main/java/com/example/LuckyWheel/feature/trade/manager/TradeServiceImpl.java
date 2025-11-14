@@ -38,8 +38,8 @@ public class TradeServiceImpl implements TradeService {
         }
 
         // Kiểm tra cả 2 user có tồn tại không
-        userService.getUserById(initUserId);
-        userService.getUserById(partnerUserId);
+        userService.getUserEntityById(initUserId);
+        userService.getUserEntityById(partnerUserId);
 
 
         // Tạo trade mới
@@ -143,7 +143,7 @@ public class TradeServiceImpl implements TradeService {
             throw new IllegalArgumentException("Item cannot be traded: " + itemId);
         }
 
-        User user = userService.getUserById(userId);
+        User user = userService.getUserEntityById(userId);
 
         int userItemQuantity = user.getResources().getOrDefault(itemId, 0);
         int currentTradeQuantity = userItems.containsKey(itemId) ? userItems.get(itemId).getQuantity() : 0;
@@ -321,8 +321,8 @@ public class TradeServiceImpl implements TradeService {
         }
 
         // Swap items giữa 2 users
-        User initUser = userService.getUserById(trade.getInitUserId());
-        User partnerUser = userService.getUserById(trade.getPartnerUserId());
+        User initUser = userService.getUserEntityById(trade.getInitUserId());
+        User partnerUser = userService.getUserEntityById(trade.getPartnerUserId());
 
         // Trừ items của init user và cộng cho partner user
         Map<Long, Trade.tradeItem> initItems = trade.getInitUserItems();

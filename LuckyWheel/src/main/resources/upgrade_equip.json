@@ -1,0 +1,135 @@
+[
+  {
+    "level": 2,
+    "loseLevel": 1,
+    "rate": 100,
+    "increase": 10,
+    "goldRequired": 10000
+  },
+  {
+    "level": 3,
+    "loseLevel": 1,
+    "rate": 95,
+    "increase": 10,
+    "goldRequired": 30000
+  },
+  {
+    "level": 4,
+    "loseLevel": 1,
+    "rate": 90,
+    "increase": 10,
+    "goldRequired": 50000
+  },
+  {
+    "level": 5,
+    "loseLevel": 4,
+    "rate": 80,
+    "increase": 10,
+    "goldRequired": 70000
+  },
+  {
+    "level": 6,
+    "loseLevel": 4,
+    "rate": 70,
+    "increase": 10,
+    "goldRequired": 90000
+  },
+  {
+    "level": 7,
+    "loseLevel": 4,
+    "rate": 60,
+    "increase": 10,
+    "goldRequired": 110000
+  },
+  {
+    "level": 8,
+    "loseLevel": 4,
+    "rate": 65,
+    "increase": 10,
+    "goldRequired": 130000
+  },
+  {
+    "level": 9,
+    "loseLevel": 8,
+    "rate": 60,
+    "increase": 10,
+    "goldRequired": 150000
+  },
+  {
+    "level": 10,
+    "loseLevel": 8,
+    "rate": 50,
+    "increase": 10,
+    "goldRequired": 170000
+  },
+  {
+    "level": 11,
+    "loseLevel": 8,
+    "rate": 45,
+    "increase": 10,
+    "goldRequired": 190000
+  },
+  {
+    "level": 12,
+    "loseLevel": 8,
+    "rate": 40,
+    "increase": 10,
+    "goldRequired": 210000
+  },
+  {
+    "level": 13,
+    "loseLevel": 12,
+    "rate": 35,
+    "increase": 10,
+    "goldRequired": 230000
+  },
+  {
+    "level": 14,
+    "loseLevel": 12,
+    "rate": 30,
+    "increase": 10,
+    "goldRequired": 250000
+  },
+  {
+    "level": 15,
+    "loseLevel": 12,
+    "rate": 25,
+    "increase": 10,
+    "goldRequired": 270000
+  },
+  {
+    "level": 16,
+    "loseLevel": 12,
+    "rate": 20,
+    "increase": 10,
+    "goldRequired": 290000
+  },
+  {
+    "level": 17,
+    "loseLevel": 16,
+    "rate": 15,
+    "increase": 10,
+    "goldRequired": 310000
+  },
+  {
+    "level": 18,
+    "loseLevel": 16,
+    "rate": 10,
+    "increase": 10,
+    "goldRequired": 330000
+  },
+  {
+    "level": 19,
+    "loseLevel": 18,
+    "rate": 5,
+    "increase": 10,
+    "goldRequired": 350000
+  },
+  {
+    "level": 20,
+    "loseLevel": 19,
+    "rate": 1,
+    "increase": 10,
+    "goldRequired": 370000
+  }
+]

@@ -1,6 +1,7 @@
 package com.example.LuckyWheel.controller;
 
 import com.example.LuckyWheel.controller.request.ResourceRequest;
+import com.example.LuckyWheel.controller.response.UserResponse;
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
 import com.example.LuckyWheel.feature.user.manager.ResourceService;
@@ -28,9 +29,9 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
         log.info("Get User by Username: {}", username);
-        User user = userService.getUserByName(username);
+        UserResponse user = userService.getUserByName(username);
         return ResponseEntity.ok(user);
     }
 

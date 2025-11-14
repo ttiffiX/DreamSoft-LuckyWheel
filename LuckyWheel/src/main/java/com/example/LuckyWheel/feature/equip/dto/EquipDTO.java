@@ -19,10 +19,10 @@ public class EquipDTO {
     private Long type;
 
     @JsonProperty("maxStar")
-    private String maxStar;
+    private Integer maxStar;
 
     @JsonProperty("maxLevel")
-    private String maxLevel;
+    private Integer maxLevel;
 
     @JsonProperty("infoBuff")
     private String infoBuff;

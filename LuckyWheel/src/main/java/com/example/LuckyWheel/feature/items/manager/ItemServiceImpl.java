@@ -27,7 +27,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<UserItemDTO> getUserItemsWithQuantity(String userId) {
-        User user = userService.getUserById(userId);
+        User user = userService.getUserEntityById(userId);
         Map<Long, Integer> userResources = user.getResources();
         List<UserItemDTO> userItemDTOList = new ArrayList<>();
 

@@ -17,7 +17,6 @@ import java.util.Set;
 @AllArgsConstructor
 @Slf4j
 public class ResourceServiceImpl implements ResourceService {
-    private final UserService userService;
     private final UserRepository userRepository;
 
     @Override
@@ -29,7 +28,9 @@ public class ResourceServiceImpl implements ResourceService {
 
         log.info("Adding {} {} to user {}", amount, resourceType, username);
 
-        User user = userService.getUserByName(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
         int currentAmount = user.getResources().getOrDefault(resourceType.getValue(), 0);
         user.getResources().put(resourceType.getValue(), currentAmount + amount);
 
@@ -41,7 +42,9 @@ public class ResourceServiceImpl implements ResourceService {
     public void addResource(String username, List<SpinResultResponse> spinRewards) {
         log.info("Adding resources to user {}", username);
 
-        User user = userService.getUserByName(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
         Map<Long, Integer> userResources = user.getResources();
 
         spinRewards.forEach(spinReward -> userResources.merge(
@@ -67,7 +70,9 @@ public class ResourceServiceImpl implements ResourceService {
     public void updateMilestone(String username, Long wheelId, Long milestoneId) {
         log.info("Update milestone claimed to user {}", username);
 
-        User user = userService.getUserByName(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
         Map<Long, Set<Long>> userMilestoneRewardsClaimed = user.getMilestoneRewardsClaimed();
         userMilestoneRewardsClaimed.merge(wheelId, Set.of(milestoneId), (oldSet, newSet) -> {
             oldSet.addAll(newSet);
@@ -85,7 +90,9 @@ public class ResourceServiceImpl implements ResourceService {
         }
 
         log.info("Removing {} {} from user {}", amount, resourceType, username);
-        User user = userService.getUserByName(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
         int currentAmount = user.getResources().getOrDefault(resourceType.getValue(), 0);
 
         if (currentAmount < amount) {
@@ -100,7 +107,9 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Override
     public int getResourceAmount(String username, ResourceType resourceType) {
-        User user = userService.getUserByName(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
         return user.getResources().getOrDefault(resourceType.getValue(), 0);
     }
 

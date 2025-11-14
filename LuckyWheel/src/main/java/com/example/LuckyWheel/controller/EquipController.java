@@ -1,6 +1,8 @@
 package com.example.LuckyWheel.controller;
 
+import com.example.LuckyWheel.controller.response.EquipResponse;
 import com.example.LuckyWheel.feature.equip.entity.Equip;
+import com.example.LuckyWheel.feature.equip.manager.EquipActionService;
 import com.example.LuckyWheel.feature.equip.manager.EquipService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +17,12 @@ import java.util.List;
 @Slf4j
 public class EquipController {
     private final EquipService equipService;
+    private final EquipActionService equipActionService;
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Equip>> getUserEquips(@PathVariable String userId) {
+    public ResponseEntity<List<EquipResponse>> getUserEquips(@PathVariable String userId) {
         log.info("getUserEquips with userId: {}", userId);
-        List<Equip> userEquips = equipService.getEquipByUserId(userId);
+        List<EquipResponse> userEquips = equipService.getEquipByUserId(userId);
         return ResponseEntity.ok(userEquips);
     }
 
@@ -49,5 +52,12 @@ public class EquipController {
         log.info("unequipItemFromUser with userId: {}, equipId: {}", userId, equipId);
         Equip unequippedItem = equipService.unequipItemFromUser(userId, equipId);
         return ResponseEntity.ok(unequippedItem);
+    }
+
+    @PutMapping("/upgrade/{userId}")
+    public ResponseEntity<Equip> upgradeEquipment(@PathVariable String userId, @RequestParam String equipId) {
+        log.info("upgradeEquipment with userId: {}, equipId: {}", userId, equipId);
+        Equip result = equipActionService.upgradeEquipment(userId, equipId);
+        return ResponseEntity.ok(result);
     }
 }

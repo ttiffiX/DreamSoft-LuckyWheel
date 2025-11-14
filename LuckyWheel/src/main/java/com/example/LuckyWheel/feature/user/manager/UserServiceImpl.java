@@ -1,5 +1,6 @@
 package com.example.LuckyWheel.feature.user.manager;
 
+import com.example.LuckyWheel.controller.response.UserResponse;
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
 import com.example.LuckyWheel.feature.user.logic.UserStatsCalculator;
@@ -27,19 +28,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(String userId) {
-        User user = userRepository.findById(userId)
+    public User getUserEntityById(String userId) {
+        return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-
-        user.setBaseStats(userStatsCalculator.calculateTotalStats(user));
-        return user;
     }
 
     @Override
-    public User getUserByName(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+    public UserResponse getUserById(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+
+        return UserResponse.builder()
+                .user(user)
+                .stats(userStatsCalculator.calculateTotalStats(user))
+                .build();
     }
+
+    @Override
+    public UserResponse getUserByName(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+
+        return UserResponse.builder()
+                .user(user)
+                .stats(userStatsCalculator.calculateTotalStats(user))
+                .build();
+    }
+
 
     @Override
     @Transactional

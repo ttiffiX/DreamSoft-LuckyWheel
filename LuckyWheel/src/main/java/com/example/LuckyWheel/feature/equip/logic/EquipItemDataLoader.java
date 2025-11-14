@@ -1,7 +1,6 @@
 package com.example.LuckyWheel.feature.equip.logic;
 
 import com.example.LuckyWheel.feature.equip.dto.EquipDTO;
-import com.example.LuckyWheel.feature.items.dto.ItemDTO;
 import com.example.LuckyWheel.utils.JsonUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import jakarta.annotation.PostConstruct;
@@ -36,10 +35,10 @@ public class EquipItemDataLoader {
         }
     }
 
-    public EquipDTO getEquipById(Long equipId) {
+    public EquipDTO getEquipByInfoId(Long equipInfoId) {
         return equipItemList.stream()
-                .filter(equip -> equip.getId().equals(equipId))
+                .filter(equip -> equip.getId().equals(equipInfoId))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Equip item not found with id: " + equipId));
+                .orElseThrow(() -> new RuntimeException("Equip item not found with info id: " + equipInfoId));
     }
 }

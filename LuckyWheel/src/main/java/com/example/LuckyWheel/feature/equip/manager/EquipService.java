@@ -1,14 +1,15 @@
 package com.example.LuckyWheel.feature.equip.manager;
 
 
+import com.example.LuckyWheel.controller.response.EquipResponse;
 import com.example.LuckyWheel.feature.equip.entity.Equip;
 
 import java.util.List;
-import java.util.Map;
 
 public interface EquipService {
-    Equip getEquipById(String equipId);
-    List<Equip> getEquipByUserId(String userId);
+    EquipResponse getEquipById(String equipId);
+    List<EquipResponse> getEquipByUserId(String userId);
+
 
     List<Equip> getEquipByUserIdAndState(String userId, int state);
 

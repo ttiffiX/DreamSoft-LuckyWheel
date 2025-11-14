@@ -1,12 +1,9 @@
 package com.example.LuckyWheel.feature.user.logic;
 
-import com.example.LuckyWheel.feature.equip.dto.EquipDTO;
 import com.example.LuckyWheel.feature.equip.entity.Equip;
-import com.example.LuckyWheel.feature.equip.logic.DataParser;
-import com.example.LuckyWheel.feature.equip.logic.EquipItemDataLoader;
+import com.example.LuckyWheel.feature.equip.logic.UpgradeLogic;
 import com.example.LuckyWheel.feature.equip.manager.EquipService;
 import com.example.LuckyWheel.feature.user.entity.User;
-import com.example.LuckyWheel.feature.user.manager.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,8 +17,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class UserStatsCalculator {
     private final EquipService equipService;
-    private final EquipItemDataLoader equipItemDataLoader;
-    private final DataParser dataParser;
+    private final UpgradeLogic upgradeLogic;
 
     // Hàm tính toán Total Stats
     public Map<Long, Long> calculateTotalStats(User user) {
@@ -30,10 +26,10 @@ public class UserStatsCalculator {
         // 2. Lấy danh sách Item đang Equip (từ EquipService)
         List<Equip> equippedItems = equipService.getEquipByUserIdAndState(user.getId(), 1);
 
+
         // 3. Cộng dồn Modifiers
         for (Equip equip : equippedItems) {
-            EquipDTO equipDTO = equipItemDataLoader.getEquipById(equip.getInfoId());
-            Map<Long, Long> modifiers = dataParser.parseInfoBuff(equipDTO.getInfoBuff());
+            Map<Long, Long> modifiers = upgradeLogic.calculatePropsMainForLevel(equip);
 
 
             for (Map.Entry<Long, Long> entry : modifiers.entrySet()) {
@@ -41,6 +37,7 @@ public class UserStatsCalculator {
                 // Định nghĩa các biến chính xác từ entry hiện tại
                 Long statId = entry.getKey();
                 Long modifierValue = entry.getValue();
+
 
                 // Dùng phương thức Long::sum cho việc cộng đơn giản
                 totalStats.merge(
@@ -50,7 +47,6 @@ public class UserStatsCalculator {
                 );
             }
         }
-
 
         return totalStats;
     }
