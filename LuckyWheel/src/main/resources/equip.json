@@ -3,7 +3,7 @@
     "id": 3001,
     "name": "Kiếm Sandai Kitesu",
     "type": 3000,
-    "maxStar": 8,
+    "maxStar": 4,
     "maxLevel": 16,
     "infoBuff": "3-1000;5-20"
   },
@@ -11,7 +11,7 @@
     "id": 3002,
     "name": "Giáp cai ngục",
     "type": 3000,
-    "maxStar": 8,
+    "maxStar": 4,
     "maxLevel": 16,
     "infoBuff": "4-60;1-500;2-500"
   }

@@ -16,6 +16,5 @@ public interface EquipService {
     Equip addEquipToUser(String userId, Long equipInfoId);
     void removeEquip(String userId, String equipId);
 
-    Equip equipItemToUser(String userId, String equipId);
-    Equip unequipItemFromUser(String userId, String equipId);
+    Equip changeStateEquip(String userId, String equipId, int state);
 }

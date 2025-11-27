@@ -23,8 +23,8 @@ public class Equip {
     private Long infoId;
     private Integer state;  // 0 - trong túi đồ, 1 - đang trang bị
     private Integer level; // cấp độ trang bị
-    private Integer star; // số gem đã gắn
+    private Integer star; // số lỗ đã đục
 
-    Map<Long, Long> propsMain;
-    List<Long> listGemIds;
+    private Map<Long, Long> propsMain;
+    private List<Long> listGemIds;
 }

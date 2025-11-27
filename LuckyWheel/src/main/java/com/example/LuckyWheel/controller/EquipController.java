@@ -40,18 +40,13 @@ public class EquipController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/equip/{userId}")
-    public ResponseEntity<Equip> equipItemToUser(@PathVariable String userId, @RequestParam String equipId) {
-        log.info("equipItemToUser with userId: {}, equipId: {}", userId, equipId);
-        Equip equippedItem = equipService.equipItemToUser(userId, equipId);
+    @PutMapping("/state/{userId}")
+    public ResponseEntity<Equip> equipItemToUser(@PathVariable String userId,
+                                                 @RequestParam String equipId,
+                                                 @RequestParam int state) {
+        log.info("Change state to {} with userId: {}, equipId: {}", state, userId, equipId);
+        Equip equippedItem = equipService.changeStateEquip(userId, equipId, state);
         return ResponseEntity.ok(equippedItem);
-    }
-
-    @PutMapping("/unequip/{userId}")
-    public ResponseEntity<Equip> unequipItemFromUser(@PathVariable String userId, @RequestParam String equipId) {
-        log.info("unequipItemFromUser with userId: {}, equipId: {}", userId, equipId);
-        Equip unequippedItem = equipService.unequipItemFromUser(userId, equipId);
-        return ResponseEntity.ok(unequippedItem);
     }
 
     @PutMapping("/upgrade/{userId}")
@@ -60,4 +55,22 @@ public class EquipController {
         Equip result = equipActionService.upgradeEquipment(userId, equipId);
         return ResponseEntity.ok(result);
     }
+
+    @PutMapping("/star/{userId}")
+    public ResponseEntity<Equip> upgradeStarEquip(@PathVariable String userId, @RequestParam String equipId) {
+        log.info("upgradeStarEquip with userId: {}, equipId: {}", userId, equipId);
+        var result = equipActionService.upgradeStarEquip(userId, equipId);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/gem/{userId}")
+    public ResponseEntity<Equip> socketGem(@PathVariable String userId,
+                                           @RequestParam String equipId,
+                                           @RequestParam String gemInstanceId,
+                                           @RequestParam boolean action) {
+        log.info("equip/unequip gem - userId: {}, equipId: {}, gemInstanceId: {}", userId, equipId, gemInstanceId);
+        Equip result = equipActionService.changeStateGemToEquip(userId, equipId, gemInstanceId, action);
+        return ResponseEntity.ok(result);
+    }
+
 }

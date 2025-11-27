@@ -3,19 +3,16 @@ package com.example.LuckyWheel.feature.equip.manager;
 import com.example.LuckyWheel.controller.response.EquipResponse;
 import com.example.LuckyWheel.feature.equip.dto.EquipDTO;
 import com.example.LuckyWheel.feature.equip.entity.Equip;
-import com.example.LuckyWheel.feature.equip.logic.DataParser;
+import com.example.LuckyWheel.feature.user.repository.UserRepository;
+import com.example.LuckyWheel.utils.DataParser;
 import com.example.LuckyWheel.feature.equip.logic.EquipItemDataLoader;
 import com.example.LuckyWheel.feature.equip.logic.UpgradeLogic;
 import com.example.LuckyWheel.feature.equip.repository.EquipRepository;
-import com.example.LuckyWheel.feature.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -103,8 +100,7 @@ public class EquipServiceImpl implements EquipService {
         equipRepository.delete(equip);
     }
 
-    @Override
-    public Equip equipItemToUser(String userId, String equipId) {
+    public Equip changeStateEquip(String userId, String equipId, int state) {
         Equip equip = equipRepository.findById(equipId)
                 .orElseThrow(() -> new RuntimeException("Equip not found with id: " + equipId));
         userRepository.existsById(userId);
@@ -113,28 +109,10 @@ public class EquipServiceImpl implements EquipService {
             throw new RuntimeException("Equip does not belong to user: " + userId);
         }
 
-        if (equip.getState() == 1) {
-            throw new RuntimeException("Equip item is already equipped.");
+        if (equip.getState() == state) {
+            throw new RuntimeException("Equip item is already in the desired state.");
         }
-        equip.setState(1);
+        equip.setState(state);
         return equipRepository.save(equip);
     }
-
-    @Override
-    public Equip unequipItemFromUser(String userId, String equipId) {
-        Equip equip = equipRepository.findById(equipId)
-                .orElseThrow(() -> new RuntimeException("Equip not found with id: " + equipId));
-        userRepository.existsById(userId);
-        if (!equip.getUserId().equals(userId)) {
-            throw new RuntimeException("Equip does not belong to user: " + userId);
-        }
-
-        if (equip.getState() == 0) {
-            throw new RuntimeException("Equip item is already unequipped.");
-        }
-
-        equip.setState(0);
-        return equipRepository.save(equip);
-    }
-
 }

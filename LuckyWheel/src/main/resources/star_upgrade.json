@@ -1,0 +1,37 @@
+[
+  {
+    "starNumber": 1,
+    "requiredEquipLevel": 4,
+    "costType": 1,
+    "costAmount": 10000,
+    "rate": 100
+  },
+  {
+    "starNumber": 2,
+    "requiredEquipLevel": 8,
+    "costType": 1,
+    "costAmount": 25000,
+    "rate": 75
+  },
+  {
+    "starNumber": 3,
+    "requiredEquipLevel": 12,
+    "costType": 1,
+    "costAmount": 50000,
+    "rate": 50
+  },
+  {
+    "starNumber": 4,
+    "requiredEquipLevel": 16,
+    "costType": 1,
+    "costAmount": 75000,
+    "rate": 25
+  },
+  {
+    "starNumber": 5,
+    "requiredEquipLevel": 20,
+    "costType": 1,
+    "costAmount": 100000,
+    "rate": 10
+  }
+]

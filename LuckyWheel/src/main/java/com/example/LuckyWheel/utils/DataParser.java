@@ -1,4 +1,4 @@
-package com.example.LuckyWheel.feature.equip.logic;
+package com.example.LuckyWheel.utils;
 
 import org.springframework.stereotype.Component;
 

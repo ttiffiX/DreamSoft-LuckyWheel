@@ -1,0 +1,17 @@
+[
+  {
+    "gemId": 1001,
+    "name": "Ngọc Ruby Cấp 1",
+    "buffs": "1-50;3-5"
+  },
+  {
+    "gemId": 1002,
+    "name": "Ngọc Sapphire Cấp 1",
+    "buffs": "2-100;4-10;5-2"
+  },
+  {
+    "gemId": 2001,
+    "name": "Ngọc Ruby Cấp 2",
+    "buffs": "1-120;3-10"
+  }
+]
