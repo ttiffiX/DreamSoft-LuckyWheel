@@ -1,6 +1,7 @@
 package com.example.LuckyWheel.feature.rewardhistory.manager;
 
 import com.example.LuckyWheel.controller.response.SpinResultResponse;
+import com.example.LuckyWheel.feature.quest.event.WheelSpinEvent;
 import com.example.LuckyWheel.feature.rewardhistory.entity.RewardHistory;
 import com.example.LuckyWheel.feature.rewardhistory.repository.RewardHistoryRepository;
 import com.example.LuckyWheel.feature.user.entity.User;
@@ -11,6 +12,7 @@ import com.example.LuckyWheel.feature.wheel.logic.WheelDataLoader;
 import com.example.LuckyWheel.feature.wheel.manager.WheelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class RewardHistoryServiceImpl implements RewardHistoryService {
     private final UserRepository userRepository;
     private final WheelDataLoader wheelDataLoader;
     private final ResourceService resourceService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public Page<SpinResultResponse> getRewardHistory(Long wheelId, String userId, Pageable pageable) {
@@ -103,6 +106,11 @@ public class RewardHistoryServiceImpl implements RewardHistoryService {
         resourceService.incrementSpinCount(userId, wheelId, quantity);
 
         rewardHistoryRepository.saveAll(histories);
+
+        // Publish event
+        eventPublisher.publishEvent(
+                new WheelSpinEvent(this, userId, wheelId, quantity)
+        );
 
         log.info("User {} spun wheel {} {} times and won {} rewards",
                 userId, wheelId, quantity, spinRewards.size());

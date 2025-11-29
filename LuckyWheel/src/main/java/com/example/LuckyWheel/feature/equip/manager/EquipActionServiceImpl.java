@@ -11,12 +11,14 @@ import com.example.LuckyWheel.feature.equip.logic.UpgradeLogic;
 import com.example.LuckyWheel.feature.equip.repository.EquipRepository;
 import com.example.LuckyWheel.feature.gems.entity.Gems;
 import com.example.LuckyWheel.feature.gems.repository.GemsRepository;
+import com.example.LuckyWheel.feature.quest.event.EquipUpgradeEvent;
 import com.example.LuckyWheel.feature.user.entity.User;
 import com.example.LuckyWheel.feature.user.enums.ResourceType;
 import com.example.LuckyWheel.feature.user.manager.ResourceService;
 import com.example.LuckyWheel.feature.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +34,7 @@ public class EquipActionServiceImpl implements EquipActionService {
     private final UpgradeLogic upgradeLogic;
     private final StarUpgradeDataLoader starUpgradeDataLoader;
     private final GemsRepository gemsRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public Equip upgradeEquipment(String userId, String equipId) {
@@ -78,6 +81,10 @@ public class EquipActionServiceImpl implements EquipActionService {
             equipRepository.save(equip);
             log.info("Equipment has been upgraded failed.");
         }
+
+        eventPublisher.publishEvent(
+                new EquipUpgradeEvent(this, userId, equip.getInfoId(), 1)
+        );
 
         return equip;
     }

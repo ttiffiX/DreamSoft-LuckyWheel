@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "name": "Vòng quay may mắn",
+    "requiredLevel": 1,
+    "orderIndex": 1,
+    "requirements": [
+      {
+        "id": 1,
+        "des": "Quay vòng quay thường",
+        "type": 1,
+        "targetId": 1,
+        "numberRequire": 1
+      },
+      {
+        "id": 2,
+        "des": "Quay vòng quay VIP",
+        "type": 1,
+        "targetId": 2,
+        "numberRequire": 1
+      }
+    ],
+    "rewards": [
+      {
+        "infoId": 1,
+        "number": 10000
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Thợ rèn tập sự",
+    "requiredLevel": 1,
+    "orderIndex": 2,
+    "requirements": [
+      {
+        "id": 1,
+        "des": "Nâng cấp trang bị lần đầu tiên",
+        "type": 2,
+        "targetId": 0,
+        "numberRequire": 5
+      }
+    ],
+    "rewards": [
+      {
+        "infoId": 1,
+        "number": 50000
+      }
+    ]
+  }
+]
