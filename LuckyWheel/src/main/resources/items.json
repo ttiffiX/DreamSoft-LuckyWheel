@@ -4,27 +4,128 @@
     "itemType": 1,
     "name": "Gold",
     "description": "Tiền tệ trong game, không thể giao dịch được",
-    "canTrade": 1
+    "canTrade": 1,
+    "maxStack": 1000000000
   },
   {
     "id": 2,
     "itemType": 2,
     "name": "Diamond",
     "description": "Tiền tệ ưu việt trong game, không thể giao dịch được.",
-    "canTrade": 1
+    "canTrade": 1,
+    "maxStack": 1000000000
   },
   {
     "id": 3,
     "itemType": 3,
     "name": "Normal Ticket",
     "description": "Vé quay thường thường, có thể mua nhưng không thể bán.",
-    "canTrade": 0
+    "canTrade": 0,
+    "maxStack": 9999
   },
   {
     "id": 4,
     "itemType": 4,
     "name": "Premium Ticket",
     "description": "Vé quay thường cao cấp, có thể mua nhưng không thể bán.",
-    "canTrade": 0
+    "canTrade": 0,
+    "maxStack": 9999
+  },
+  {
+    "id": 101,
+    "itemType": 100,
+    "name": "Slime Gel",
+    "description": "Chất nhầy từ slime, có thể dùng để chế tạo.",
+    "canTrade": 0,
+    "maxStack": 999
+  },
+  {
+    "id": 102,
+    "itemType": 100,
+    "name": "Goblin Ear",
+    "description": "Tai goblin, nguyên liệu quý hiếm.",
+    "canTrade": 0,
+    "maxStack": 999
+  },
+  {
+    "id": 103,
+    "itemType": 100,
+    "name": "Wolf Fang",
+    "description": "Nanh sói, sắc bén và cứng.",
+    "canTrade": 0,
+    "maxStack": 999
+  },
+  {
+    "id": 104,
+    "itemType": 100,
+    "name": "Dragon Scale",
+    "description": "Vảy rồng, vật liệu hiếm nhất.",
+    "canTrade": 0,
+    "maxStack": 999
+  },
+  {
+    "id": 201,
+    "itemType": 200,
+    "name": "Health Potion",
+    "description": "Hồi phục 500 HP ngay lập tức.",
+    "canTrade": 0,
+    "maxStack": 99,
+    "effect": {
+      "type": "HEAL",
+      "value": 500
+    }
+  },
+  {
+    "id": 202,
+    "itemType": 200,
+    "name": "Mana Potion",
+    "description": "Hồi phục 200 MP ngay lập tức.",
+    "canTrade": 0,
+    "maxStack": 99,
+    "effect": {
+      "type": "RESTORE_MP",
+      "value": 200
+    }
+  },
+  {
+    "id": 203,
+    "itemType": 200,
+    "name": "Greater Health Potion",
+    "description": "Hồi phục 2000 HP ngay lập tức.",
+    "canTrade": 0,
+    "maxStack": 99,
+    "effect": {
+      "type": "HEAL",
+      "value": 2000
+    }
+  },
+  {
+    "id": 204,
+    "itemType": 200,
+    "name": "Attack Buff Potion",
+    "description": "Tăng 200 ATK trong 30 phút.",
+    "canTrade": 0,
+    "maxStack": 99,
+    "effect": {
+      "type": "BUFF_ATTACK",
+      "value": 200,
+      "duration": 1800
+    }
+  },
+  {
+    "id": 301,
+    "itemType": 300,
+    "name": "Mysterious Key",
+    "description": "Chìa khóa bí ẩn, có thể mở kho báu.",
+    "canTrade": 0,
+    "maxStack": 10
+  },
+  {
+    "id": 302,
+    "itemType": 300,
+    "name": "Ancient Scroll",
+    "description": "Cuộn giấy cổ, chứa bí mật.",
+    "canTrade": 0,
+    "maxStack": 5
   }
 ]

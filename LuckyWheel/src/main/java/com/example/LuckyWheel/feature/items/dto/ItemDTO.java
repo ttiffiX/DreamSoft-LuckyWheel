@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 /**
  * DTO cho Item từ items.json
  */
@@ -26,5 +28,11 @@ public class ItemDTO {
 
     @JsonProperty("canTrade")
     private Integer canTrade;
+
+    @JsonProperty("maxStack")
+    private Integer maxStack;
+
+    @JsonProperty("effect")
+    private Map<String, Object> effect;  // For consumable items
 }
 
