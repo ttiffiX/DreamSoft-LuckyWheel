@@ -1,0 +1,167 @@
+{
+  "1": {
+    "monsterInfoId": 1,
+    "guaranteed": {
+      "1": 50
+    },
+    "items": [
+      {
+        "itemInfoId": 101,
+        "dropRate": 40,
+        "quantity": 1
+      },
+      {
+        "itemInfoId": 201,
+        "dropRate": 10,
+        "quantity": 1
+      }
+    ]
+  },
+  "2": {
+    "monsterInfoId": 2,
+    "guaranteed": {
+      "1": 100
+    },
+    "items": [
+      {
+        "itemInfoId": 102,
+        "dropRate": 50,
+        "quantity": 1
+      },
+      {
+        "itemInfoId": 201,
+        "dropRate": 15,
+        "quantity": 1
+      }
+    ]
+  },
+  "3": {
+    "monsterInfoId": 3,
+    "guaranteed": {
+      "1": 150
+    },
+    "items": [
+      {
+        "itemInfoId": 103,
+        "dropRate": 60,
+        "quantity": 1
+      },
+      {
+        "itemInfoId": 204,
+        "dropRate": 8,
+        "quantity": 1
+      }
+    ]
+  },
+  "4": {
+    "monsterInfoId": 4,
+    "guaranteed": {
+      "1": 200
+    },
+    "items": [
+      {
+        "itemInfoId": 102,
+        "dropRate": 40,
+        "quantity": 3
+      },
+      {
+        "itemInfoId": 202,
+        "dropRate": 20,
+        "quantity": 1
+      }
+    ]
+  },
+  "5": {
+    "monsterInfoId": 5,
+    "guaranteed": {
+      "1": 300
+    },
+    "items": [
+      {
+        "itemInfoId": 103,
+        "dropRate": 50,
+        "quantity": 4
+      },
+      {
+        "itemInfoId": 301,
+        "dropRate": 0.1,
+        "quantity": 1
+      }
+    ]
+  },
+  "6": {
+    "monsterInfoId": 6,
+    "guaranteed": {
+      "1": 500
+    },
+    "items": [
+      {
+        "itemInfoId": 202,
+        "dropRate": 60,
+        "quantity": 3
+      },
+      {
+        "itemInfoId": 203,
+        "dropRate": 40,
+        "quantity": 2
+      },
+      {
+        "itemInfoId": 302,
+        "dropRate": 15,
+        "quantity": 1
+      }
+    ]
+  },
+  "7": {
+    "monsterInfoId": 7,
+    "guaranteed": {
+      "1": 1000
+    },
+    "items": [
+      {
+        "itemInfoId": 104,
+        "dropRate": 30,
+        "quantity": 1
+      },
+      {
+        "itemInfoId": 203,
+        "dropRate": 0.5,
+        "quantity": 3
+      },
+      {
+        "itemInfoId": 204,
+        "dropRate": 30,
+        "quantity": 1
+      }
+    ]
+  },
+  "8": {
+    "monsterInfoId": 8,
+    "guaranteed": {
+      "1": 2000
+    },
+    "items": [
+      {
+        "itemInfoId": 104,
+        "dropRate": 50,
+        "quantity": 5
+      },
+      {
+        "itemInfoId": 203,
+        "dropRate": 70,
+        "quantity": 4
+      },
+      {
+        "itemInfoId": 301,
+        "dropRate": 30,
+        "quantity": 1
+      },
+      {
+        "itemInfoId": 302,
+        "dropRate": 20,
+        "quantity": 1
+      }
+    ]
+  }
+}
+

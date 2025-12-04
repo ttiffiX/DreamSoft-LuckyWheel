@@ -1,6 +1,7 @@
 package com.example.LuckyWheel.feature.quest.listener;
 
 import com.example.LuckyWheel.feature.quest.enums.QuestRequirementType;
+import com.example.LuckyWheel.feature.quest.event.ChallengeMonsterEvent;
 import com.example.LuckyWheel.feature.quest.event.EquipUpgradeEvent;
 import com.example.LuckyWheel.feature.quest.event.WheelSpinEvent;
 import com.example.LuckyWheel.feature.quest.manager.QuestService;
@@ -56,6 +57,23 @@ public class QuestEventListener {
             );
         } catch (Exception e) {
             log.error("Error updating quest progress for equip upgrade", e);
+        }
+    }
+
+    @EventListener
+    @Async
+    public void onChallengeMonster(ChallengeMonsterEvent event) {
+        log.info("Received ChallengeMonsterEvent for user {} on monster {}", event.getUserId(), event.getMonsterInfoId());
+
+        try {
+            questService.updateProgress(
+                    event.getUserId(),
+                    QuestRequirementType.KILL_MONSTER,
+                    event.getMonsterInfoId(),
+                    event.getKillCount()
+            );
+        } catch (Exception e) {
+            log.error("Error updating quest progress for challenge monster", e);
         }
     }
 }

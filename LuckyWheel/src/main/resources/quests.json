@@ -47,5 +47,26 @@
         "number": 50000
       }
     ]
+  },
+  {
+    "id": 3,
+    "name": "Thợ săn Slime",
+    "requiredLevel": 1,
+    "orderIndex": 3,
+    "requirements": [
+      {
+        "id": 1,
+        "des": "Đánh bại slime",
+        "type": 3,
+        "targetId": 1,
+        "numberRequire": 5
+      }
+    ],
+    "rewards": [
+      {
+        "infoId": 1,
+        "number": 50000
+      }
+    ]
   }
 ]
