@@ -38,12 +38,12 @@ public class QuestController {
     }
 
     /**
-     * Lấy quest progress của user
+     * Lấy quest progress hiện tại của user
      */
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<UserQuestProgress>> getUserQuestProgress(@PathVariable String userId) {
-        log.info("Get quest progress for user {}", userId);
-        List<UserQuestProgress> progress = questService.getUserQuestProgress(userId);
+    public ResponseEntity<UserQuestProgress> getCurrentQuest(@PathVariable String userId) {
+        log.info("Get current quest for user {}", userId);
+        UserQuestProgress progress = questService.getCurrentQuest(userId);
         return ResponseEntity.ok(progress);
     }
 
@@ -58,22 +58,22 @@ public class QuestController {
     }
 
     /**
-     * Claim phần thưởng quest
+     * Claim phần thưởng quest hiện tại
      */
-    @PostMapping("/{questId}/claim")
-    public ResponseEntity<UserQuestProgress> claimReward(@PathVariable Long questId, @RequestParam String userId) {
-        log.info("User {} claiming reward for quest {}", userId, questId);
-        UserQuestProgress userQuestProgress = questService.claimReward(userId, questId);
+    @PostMapping("/claim")
+    public ResponseEntity<UserQuestProgress> claimReward(@RequestParam String userId) {
+        log.info("User {} claiming reward for current quest", userId);
+        UserQuestProgress userQuestProgress = questService.claimReward(userId);
         return ResponseEntity.ok(userQuestProgress);
     }
 
     /**
-     * Kiểm tra quest đã hoàn thành chưa
+     * Kiểm tra quest hiện tại đã hoàn thành chưa
      */
-    @GetMapping("/{questId}/completed")
-    public ResponseEntity<Boolean> isQuestCompleted(@PathVariable Long questId, @RequestParam String userId) {
-        log.info("Check if quest {} is completed for user {}", questId, userId);
-        boolean completed = questService.isQuestCompleted(userId, questId);
+    @GetMapping("/completed")
+    public ResponseEntity<Boolean> isQuestCompleted(@RequestParam String userId) {
+        log.info("Check if current quest is completed for user {}", userId);
+        boolean completed = questService.isQuestCompleted(userId);
         return ResponseEntity.ok(completed);
     }
 }

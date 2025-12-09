@@ -27,55 +27,38 @@ public class QuestServiceImpl implements QuestService {
     private final UserRepository userRepository;
 
     @Override
-    public List<UserQuestProgress> getUserQuestProgress(String userId) {
-        return questProgressRepository.findByUserId(userId);
-    }
-
-    @Override
-    public UserQuestProgress getQuestProgressById(String userId, Long questId) {
-        return questProgressRepository.findByUserIdAndInfoId(userId, questId)
+    public UserQuestProgress getCurrentQuest(String userId) {
+        // Lấy quest ACTIVE hoặc COMPLETED duy nhất của user
+        List<UserQuestProgress> quests = questProgressRepository.findByUserId(userId);
+        return quests.stream()
+                .filter(q -> q.getStatus().equals(QuestStatus.ACTIVE.getValue()) ||
+                             q.getStatus().equals(QuestStatus.COMPLETED.getValue()))
+                .findFirst()
                 .orElse(null);
     }
 
     @Override
     @Transactional
     public UserQuestProgress initializeQuestForUser(String userId, Long questId) {
-        UserQuestProgress existingProgress = questProgressRepository
-                .findByUserIdAndInfoId(userId, questId).orElse(null);
-
-        if (existingProgress != null) {
-            return existingProgress;
+        // Kiểm tra xem user có quest nào đang tồn tại không (ACTIVE hoặc COMPLETED)
+        UserQuestProgress existingQuest = getCurrentQuest(userId);
+        if (existingQuest != null) {
+            throw new RuntimeException("You already have an active quest. Please complete and claim it first.");
         }
 
+        // Lấy quest info
         QuestDTO questDTO = questDataLoader.getQuestById(questId);
         if (questDTO == null) {
             throw new RuntimeException("Quest configuration not found for ID: " + questId);
         }
 
-        if (questProgressRepository.existsByUserIdAndStatus(userId, QuestStatus.ACTIVE.getValue())) {
-            throw new RuntimeException("You must complete the current quest before starting a new one");
-        }
-
-        if (questDTO.getOrderIndex() > 1) {
-            QuestDTO previousQuest = questDataLoader.getQuestByOrderIndex(questDTO.getOrderIndex() - 1);
-
-            if (previousQuest != null) {
-                boolean isPrevQuestClaimed = questProgressRepository
-                        .findByUserIdAndInfoId(userId, previousQuest.getId())
-                        .map(p -> p.getStatus().equals(QuestStatus.CLAIMED.getValue()))
-                        .orElse(false);
-
-                if (!isPrevQuestClaimed) {
-                    throw new RuntimeException("You must complete the previous quest first");
-                }
-            }
-        }
-
+        // Khởi tạo progress map
         Map<Long, Integer> initialProgress = new HashMap<>();
         questDTO.getRequirements().forEach(req ->
-                initialProgress.put(req.getId(), 0)  // ← Sử dụng requirement.getId() làm key
+                initialProgress.put(req.getId(), 0)
         );
 
+        // Tạo quest mới
         UserQuestProgress progress = UserQuestProgress.builder()
                 .id(userId + "_" + questId)
                 .userId(userId)
@@ -94,75 +77,79 @@ public class QuestServiceImpl implements QuestService {
     @Override
     @Transactional
     public void updateProgress(String userId, QuestRequirementType type, Long targetId, Integer count) {
-        // Lấy tất cả quest đang active của user
-        List<UserQuestProgress> activeQuests = questProgressRepository
-                .findByUserIdAndStatus(userId, QuestStatus.ACTIVE.getValue());
+        // Lấy quest hiện tại của user
+        UserQuestProgress progress = getCurrentQuest(userId);
 
-        for (UserQuestProgress progress : activeQuests) {
-            QuestDTO questDTO = questDataLoader.getQuestById(progress.getInfoId());
-            boolean progressUpdated = false;
+        // Không có quest hoặc quest đã completed thì không update
+        if (progress == null || progress.getStatus().equals(QuestStatus.COMPLETED.getValue())) {
+            return;
+        }
 
-            // Tìm requirement phù hợp với action
-            for (QuestDTO.QuestRequirement requirement : questDTO.getRequirements()) {
-                // Kiểm tra type có khớp không
-                boolean typeMatches = requirement.getType().equals(type.getValue());
+        QuestDTO questDTO = questDataLoader.getQuestById(progress.getInfoId());
+        boolean progressUpdated = false;
 
-                // Kiểm tra targetId:
-                // - Nếu targetId = 0 trong quest -> chấp nhận BẤT KỲ target nào
-                // - Nếu targetId != 0 -> phải khớp chính xác
-                boolean targetMatches = requirement.getTargetId().equals(0L) ||
-                        requirement.getTargetId().equals(targetId);
+        // Tìm requirement phù hợp với action
+        for (QuestDTO.QuestRequirement requirement : questDTO.getRequirements()) {
+            // Kiểm tra type có khớp không
+            boolean typeMatches = requirement.getType().equals(type.getValue());
 
-                if (typeMatches && targetMatches) {
-                    // Cập nhật progress
-                    Integer currentProgress = progress.getRequirementProgress()
-                            .getOrDefault(requirement.getId(), 0);
-                    Integer newProgress = Math.min(currentProgress + count, requirement.getNumberRequire());
+            // Kiểm tra targetId:
+            // - Nếu targetId = 0 trong quest -> chấp nhận BẤT KỲ target nào
+            // - Nếu targetId != 0 -> phải khớp chính xác
+            boolean targetMatches = requirement.getTargetId().equals(0L) ||
+                    requirement.getTargetId().equals(targetId);
 
-                    progress.getRequirementProgress().put(requirement.getId(), newProgress);
-                    progressUpdated = true;
+            if (typeMatches && targetMatches) {
+                // Cập nhật progress
+                Integer currentProgress = progress.getRequirementProgress()
+                        .getOrDefault(requirement.getId(), 0);
+                Integer newProgress = Math.min(currentProgress + count, requirement.getNumberRequire());
 
-                    log.info("Updated quest {} requirement {} progress: {}/{} (type={}, targetId={}, anyTarget={})",
-                            questDTO.getId(), requirement.getId(), newProgress, requirement.getNumberRequire(),
-                            type.getName(), targetId, requirement.getTargetId().equals(0L));
-                }
+                progress.getRequirementProgress().put(requirement.getId(), newProgress);
+                progressUpdated = true;
+
+                log.info("Updated quest {} requirement {} progress: {}/{} (type={}, targetId={}, anyTarget={})",
+                        questDTO.getId(), requirement.getId(), newProgress, requirement.getNumberRequire(),
+                        type.getName(), targetId, requirement.getTargetId().equals(0L));
+            }
+        }
+
+        if (progressUpdated) {
+            // Kiểm tra xem quest đã hoàn thành chưa
+            if (checkAllRequirementsCompleted(questDTO, progress)) {
+                progress.setStatus(QuestStatus.COMPLETED.getValue());
+                progress.setCompletedAt(LocalDateTime.now());
+                log.info("Quest {} completed for user {}", questDTO.getId(), userId);
             }
 
-            if (progressUpdated) {
-                // Kiểm tra xem quest đã hoàn thành chưa
-                if (checkAllRequirementsCompleted(questDTO, progress)) {
-                    progress.setStatus(QuestStatus.COMPLETED.getValue());
-                    progress.setCompletedAt(LocalDateTime.now());
-                    log.info("Quest {} completed for user {}", questDTO.getId(), userId);
-                }
-
-                questProgressRepository.save(progress);
-            }
+            questProgressRepository.save(progress);
         }
 
         log.info("Updated quest progress for user {}", userId);
     }
 
     @Override
-    public boolean isQuestCompleted(String userId, Long questId) {
-        return questProgressRepository.findByUserIdAndInfoId(userId, questId)
-                .map(progress -> progress.getStatus().equals(QuestStatus.COMPLETED.getValue()))
-                .orElse(false);
+    public boolean isQuestCompleted(String userId) {
+        UserQuestProgress currentQuest = getCurrentQuest(userId);
+        return currentQuest != null && currentQuest.getStatus().equals(QuestStatus.COMPLETED.getValue());
     }
 
     @Override
     @Transactional
-    public UserQuestProgress claimReward(String userId, Long questId) {
-        UserQuestProgress progress = questProgressRepository.findByUserIdAndInfoId(userId, questId)
-                .orElseThrow(() -> new RuntimeException("Quest progress not found"));
+    public UserQuestProgress claimReward(String userId) {
+        // Lấy quest hiện tại
+        UserQuestProgress progress = getCurrentQuest(userId);
+        if (progress == null) {
+            throw new RuntimeException("No quest found");
+        }
 
         // Kiểm tra quest đã completed chưa
         if (!progress.getStatus().equals(QuestStatus.COMPLETED.getValue())) {
-            throw new RuntimeException("Quest progress not completed");
+            throw new RuntimeException("Quest not completed yet");
         }
 
         // Lấy quest info để biết phần thưởng
-        QuestDTO questDTO = questDataLoader.getQuestById(questId);
+        QuestDTO questDTO = questDataLoader.getQuestById(progress.getInfoId());
 
         // Thêm phần thưởng cho user
         User user = userRepository.findById(userId)
@@ -176,16 +163,14 @@ public class QuestServiceImpl implements QuestService {
 
         userRepository.save(user);
 
-        // Đánh dấu quest là claimed
-        progress.setStatus(QuestStatus.CLAIMED.getValue());
-        questProgressRepository.save(progress);
-
-        log.info("Successfully claimed reward for quest {} by user {}", questId, userId);
+        // Xóa quest đã claim
+        questProgressRepository.delete(progress);
+        log.info("Successfully claimed and deleted quest {} for user {}", questDTO.getId(), userId);
 
         // Tự động khởi tạo quest tiếp theo (nếu có)
         Long nextQuestId = questDataLoader.getQuestIdByOrderIndex(questDTO.getOrderIndex() + 1);
         if (nextQuestId != null) {
-            initializeQuestForUser(userId, questDataLoader.getQuestIdByOrderIndex(questDTO.getOrderIndex() + 1));
+            initializeQuestForUser(userId, nextQuestId);
         }
 
         return progress;

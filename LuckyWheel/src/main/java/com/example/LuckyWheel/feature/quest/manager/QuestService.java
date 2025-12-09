@@ -7,17 +7,15 @@ import com.example.LuckyWheel.feature.quest.enums.QuestRequirementType;
 import java.util.List;
 
 public interface QuestService {
-    List<UserQuestProgress> getUserQuestProgress(String userId);
-
-    UserQuestProgress getQuestProgressById(String userId, Long questId);
+    UserQuestProgress getCurrentQuest(String userId);
 
     UserQuestProgress initializeQuestForUser(String userId, Long questId);
 
     void updateProgress(String userId, QuestRequirementType type, Long targetId, Integer count);
 
-    boolean isQuestCompleted(String userId, Long questId);
+    boolean isQuestCompleted(String userId);
 
-    UserQuestProgress claimReward(String userId, Long questId);
+    UserQuestProgress claimReward(String userId);
 
     QuestDTO getQuestInfo(Long questId);
 

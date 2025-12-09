@@ -7,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum QuestStatus {
     ACTIVE(0L),
-    COMPLETED(1L),
-    CLAIMED(2L);
+    COMPLETED(1L);
 
     private final Long value;
 }
